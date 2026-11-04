@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" font-family="system-ui, sans-serif" font-size="12">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" font-family="system-ui, sans-serif" font-size="12" role="img">
+<title>KVLCC2 L7, 10°/10° zig-zag (NautiSim MMG)</title>
 <rect width="640" height="420" fill="#06121f"/>
 <text x="320" y="20" fill="#e6f0f7" font-size="15" text-anchor="middle">KVLCC2 L7, 10°/10° zig-zag (NautiSim MMG)</text>
 <line x1="86.13372093023256" y1="34" x2="86.13372093023256" y2="376" stroke="#16324a"/>
