@@ -25,6 +25,22 @@ export interface HydroResult {
   maxDepth: number;
   /** Fraction of hull vertices below the surface. */
   submergedVertexFraction: number;
+  /** Cross-flow drag on the wetted panels, world frame (only when kinematics are given). */
+  crossflowForce: Vec3;
+  crossflowMoment: Vec3;
+}
+
+/**
+ * Optional kinematics for the panel cross-flow drag: each wetted panel moving sideways into the
+ * water (along the body y axis) gets a drag ½ ρ C_D |n_y| A v_y² opposing that motion. Because it
+ * uses the actual wetted panels, it keeps working when the hull is heeled onto its side.
+ */
+export interface CrossflowKinematics {
+  /** Velocity of the CG relative to the water, world frame. */
+  velocity: Readonly<Vec3>;
+  /** Angular velocity, world frame. */
+  omega: Readonly<Vec3>;
+  cd: number;
 }
 
 export const newHydroResult = (): HydroResult => ({
@@ -35,6 +51,8 @@ export const newHydroResult = (): HydroResult => ({
   wettedCentroid: { x: 0, y: 0, z: 0 },
   maxDepth: 0,
   submergedVertexFraction: 0,
+  crossflowForce: { x: 0, y: 0, z: 0 },
+  crossflowMoment: { x: 0, y: 0, z: 0 },
 });
 
 /** Preallocated buffers for one mesh. */
@@ -59,6 +77,23 @@ interface Accum {
   cx: number;
   cy: number;
   cz: number;
+  kin: boolean;
+  vx: number;
+  vy: number;
+  vz: number;
+  wx: number;
+  wy: number;
+  wz: number;
+  ex: number;
+  ey: number;
+  ez: number;
+  halfRhoCd: number;
+  dfx: number;
+  dfy: number;
+  dfz: number;
+  dmx: number;
+  dmy: number;
+  dmz: number;
 }
 
 /**
@@ -115,6 +150,29 @@ function integrateTri(
   acc.my -= prz * ux - prx * uz;
   acc.mz -= prx * uy - pry * ux;
   acc.area += area;
+  if (acc.kin) {
+    const gx = (ax + bx + cx) / 3;
+    const gy = (ay + by + cy) / 3;
+    const gz = (az + bz + cz) / 3;
+    const ny = ux * acc.ex + uy * acc.ey + uz * acc.ez; // panel normal along body y
+    // panel velocity v + ω × r, its body-y component
+    const pvx = acc.vx + acc.wy * gz - acc.wz * gy;
+    const pvy = acc.vy + acc.wz * gx - acc.wx * gz;
+    const pvz = acc.vz + acc.wx * gy - acc.wy * gx;
+    const vyb = pvx * acc.ex + pvy * acc.ey + pvz * acc.ez;
+    if (vyb * ny > 0) {
+      const f = -acc.halfRhoCd * Math.abs(ny) * area * vyb * Math.abs(vyb);
+      const fx = f * acc.ex;
+      const fy = f * acc.ey;
+      const fz = f * acc.ez;
+      acc.dfx += fx;
+      acc.dfy += fy;
+      acc.dfz += fz;
+      acc.dmx += gy * fz - gz * fy;
+      acc.dmy += gz * fx - gx * fz;
+      acc.dmz += gx * fy - gy * fx;
+    }
+  }
   acc.cx += area * (ax + bx + cx) / 3;
   acc.cy += area * (ay + by + cy) / 3;
   acc.cz += area * (az + bz + cz) / 3;
@@ -169,6 +227,7 @@ export function computeHydrostatics(
   t: number,
   scratch: HydroScratch,
   out: HydroResult,
+  kinematics?: CrossflowKinematics,
 ): HydroResult {
   const p = mesh.positions;
   const idx = mesh.indices;
@@ -204,7 +263,37 @@ export function computeHydrostatics(
     if (h > maxDepth) maxDepth = h;
     if (h > 0) submerged++;
   }
-  const acc: Accum = { fx: 0, fy: 0, fz: 0, mx: 0, my: 0, mz: 0, area: 0, cx: 0, cy: 0, cz: 0 };
+  const k = kinematics;
+  const acc: Accum = {
+    fx: 0,
+    fy: 0,
+    fz: 0,
+    mx: 0,
+    my: 0,
+    mz: 0,
+    area: 0,
+    cx: 0,
+    cy: 0,
+    cz: 0,
+    kin: k !== undefined && k.cd > 0,
+    vx: k ? k.velocity.x : 0,
+    vy: k ? k.velocity.y : 0,
+    vz: k ? k.velocity.z : 0,
+    wx: k ? k.omega.x : 0,
+    wy: k ? k.omega.y : 0,
+    wz: k ? k.omega.z : 0,
+    // body y axis in the world frame: second column of R
+    ex: r01,
+    ey: r11,
+    ez: r21,
+    halfRhoCd: k ? 0.5 * env.rho * k.cd : 0,
+    dfx: 0,
+    dfy: 0,
+    dfz: 0,
+    dmx: 0,
+    dmy: 0,
+    dmz: 0,
+  };
   const rhoG = env.rho * env.g;
   if (submerged > 0) {
     for (let tIdx = 0; tIdx < idx.length; tIdx += 3) {
@@ -246,6 +335,12 @@ export function computeHydrostatics(
   out.moment.y = acc.my;
   out.moment.z = acc.mz;
   out.wettedArea = acc.area;
+  out.crossflowForce.x = acc.dfx;
+  out.crossflowForce.y = acc.dfy;
+  out.crossflowForce.z = acc.dfz;
+  out.crossflowMoment.x = acc.dmx;
+  out.crossflowMoment.y = acc.dmy;
+  out.crossflowMoment.z = acc.dmz;
   out.volume = -acc.fz / rhoG;
   const ia = acc.area > 0 ? 1 / acc.area : 0;
   out.wettedCentroid.x = acc.cx * ia;

@@ -19,3 +19,7 @@ export * from './hulls/kvlcc2';
 export * from './sim/simulation';
 export * from './validation/maneuvers';
 export * from './validation/references';
+export * from './forces/savitsky';
+export * from './forces/propulsion';
+export * from './hulls/planing';
+export * from './hulls/catalog';

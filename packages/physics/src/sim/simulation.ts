@@ -201,12 +201,34 @@ export class Simulation {
     ctx.windRelBody.x = windBody.x - ctx.velBody.x;
     ctx.windRelBody.y = windBody.y - ctx.velBody.y;
     ctx.windRelBody.z = 0;
-    computeHydrostatics(this.vessel.mesh, p, q, env, t, this.hydroScratch, ctx.hydro);
+    const cd = this.vessel.crossflowCd ?? 0;
+    if (cd > 0) {
+      rotate(q, ctx.relVelBody, this.kin.velocity);
+      rotate(q, ctx.omegaBody, this.kin.omega);
+      this.kin.cd = cd;
+      computeHydrostatics(this.vessel.mesh, p, q, env, t, this.hydroScratch, ctx.hydro, this.kin);
+    } else {
+      computeHydrostatics(this.vessel.mesh, p, q, env, t, this.hydroScratch, ctx.hydro);
+    }
     const models = this.vessel.forceModels;
     const fctx = ctx as ForceContext;
-    for (let i = 0; i < models.length; i++) (models[i] as (typeof models)[number]).apply(fctx, out);
+    if (this.debugForces) {
+      for (let i = 0; i < models.length; i++) {
+        const m = models[i] as (typeof models)[number];
+        const fz0 = out.force.z;
+        const my0 = out.moment.y;
+        m.apply(fctx, out);
+        ctx.diag[`F.${m.name}.z`] = out.force.z - fz0;
+        ctx.diag[`F.${m.name}.my`] = out.moment.y - my0;
+      }
+    } else {
+      for (let i = 0; i < models.length; i++) (models[i] as (typeof models)[number]).apply(fctx, out);
+    }
   };
+  /** Record each force model's body-z force and pitch moment in the diagnostics (slow). */
+  debugForces = false;
   private readonly scratchWind: Vec3 = { x: 0, y: 0, z: 0 };
+  private readonly kin = { velocity: { x: 0, y: 0, z: 0 }, omega: { x: 0, y: 0, z: 0 }, cd: 0 };
 
   /** Advance one fixed step. */
   step(): void {

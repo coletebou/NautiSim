@@ -1,5 +1,5 @@
 import type { Dof6, ForceContext, ForceModel, Wrench } from '../core/types';
-import { rotateInverse } from '../math/quat';
+import { rotate, rotateInverse } from '../math/quat';
 import type { Vec3 } from '../math/vec3';
 
 /**
@@ -26,6 +26,26 @@ export function hydrostaticForce(): ForceModel {
   };
 }
 
+/** Applies the wetted-panel cross-flow drag computed by the hydrostatics pass (see crossflowCd). */
+export function panelCrossflow(): ForceModel {
+  const f: Vec3 = { x: 0, y: 0, z: 0 };
+  const mo: Vec3 = { x: 0, y: 0, z: 0 };
+  return {
+    name: 'panelCrossflow',
+    apply(ctx, out) {
+      rotateInverse(ctx.orientation, ctx.hydro.crossflowForce, f);
+      rotateInverse(ctx.orientation, ctx.hydro.crossflowMoment, mo);
+      out.force.x += f.x;
+      out.force.y += f.y;
+      out.force.z += f.z;
+      out.moment.x += mo.x;
+      out.moment.y += mo.y;
+      out.moment.z += mo.z;
+      ctx.diag['crossflow.fy'] = f.y;
+    },
+  };
+}
+
 export interface DampingOptions {
   /** Linear coefficients (N per m/s, N·m per rad/s). */
   linear?: Partial<Dof6>;
@@ -43,6 +63,8 @@ export function viscousDamping(opts: DampingOptions): ForceModel {
   const L = { surge: g(l, 'surge'), sway: g(l, 'sway'), heave: g(l, 'heave'), roll: g(l, 'roll'), pitch: g(l, 'pitch'), yaw: g(l, 'yaw') };
   const Q = { surge: g(q, 'surge'), sway: g(q, 'sway'), heave: g(q, 'heave'), roll: g(q, 'roll'), pitch: g(q, 'pitch'), yaw: g(q, 'yaw') };
   const scale = opts.scaleWithImmersion ?? true;
+  const vw: Vec3 = { x: 0, y: 0, z: 0 };
+  const fb: Vec3 = { x: 0, y: 0, z: 0 };
   return {
     name: 'damping',
     apply(ctx, out) {
@@ -52,7 +74,16 @@ export function viscousDamping(opts: DampingOptions): ForceModel {
       const w = ctx.omegaBody;
       out.force.x -= k * (L.surge * v.x + Q.surge * v.x * Math.abs(v.x));
       out.force.y -= k * (L.sway * v.y + Q.sway * v.y * Math.abs(v.y));
-      out.force.z -= k * (L.heave * v.z + Q.heave * v.z * Math.abs(v.z));
+      // heave damping acts on the vertical (world) velocity: a trimmed hull running steadily has a
+      // body-z velocity component that must not be damped
+      rotate(ctx.orientation, v, vw);
+      vw.x = 0;
+      vw.y = 0;
+      vw.z = -k * (L.heave * vw.z + Q.heave * vw.z * Math.abs(vw.z));
+      rotateInverse(ctx.orientation, vw, fb);
+      out.force.x += fb.x;
+      out.force.y += fb.y;
+      out.force.z += fb.z;
       out.moment.x -= k * (L.roll * w.x + Q.roll * w.x * Math.abs(w.x));
       out.moment.y -= k * (L.pitch * w.y + Q.pitch * w.y * Math.abs(w.y));
       out.moment.z -= k * (L.yaw * w.z + Q.yaw * w.z * Math.abs(w.z));

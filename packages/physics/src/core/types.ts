@@ -128,6 +128,8 @@ export interface Vessel {
   readonly gearRatio: number;
   /** Initial state in calm water (CG depth and pitch at equilibrium). */
   readonly rest: Readonly<{ z: number; pitch: number; roll: number }>;
+  /** Cross-flow drag coefficient for the wetted-panel sway drag (0 or absent = off). */
+  readonly crossflowCd?: number;
   /** Free-form metadata for the UI (descriptions, cruise speed…). */
   readonly meta: Readonly<Record<string, string | number>>;
 }
