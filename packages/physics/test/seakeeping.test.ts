@@ -28,6 +28,26 @@ describe('seakeeping in irregular seas (environment package)', () => {
     expect(maxRoll).toBeLessThan(45 * DEG);
   }, 60_000);
 
+  for (const sea of ['slight', 'moderate'] as const) {
+    it(`a RIB at speed in a ${sea} sea bounces but never stands on its tail or flips`, () => {
+      const env = presetEnvironment(sea, { seed: 7, fromDirection: (40 * Math.PI) / 180, waveComponents: 16 });
+      const sim = new Simulation(createPlaningBoat(RIB_65), env);
+      sim.controls = { throttle: 0.75, helm: 0, thruster: 0 };
+      let maxTrim = 0;
+      let maxRoll = 0;
+      for (let i = 0; i < Math.round(40 / sim.dt); i++) {
+        if (i === Math.round(15 / sim.dt)) sim.controls = { throttle: 0.75, helm: 0.3, thruster: 0 };
+        sim.step();
+        const s = sim.snapshot();
+        maxTrim = Math.max(maxTrim, s.euler.pitch);
+        maxRoll = Math.max(maxRoll, Math.abs(s.euler.roll));
+      }
+      expect(maxTrim).toBeLessThan(25 * DEG);
+      expect(maxRoll).toBeLessThan(35 * DEG);
+      expect(sim.snapshot().speedThroughWater / 0.5144).toBeGreaterThan(15);
+    }, 60_000);
+  }
+
   it('a full-scale tanker barely notices a moderate sea', () => {
     const env = presetEnvironment('moderate', { seed: 5, waveComponents: 16 });
     const v = createKVLCC2({ scale: 1 });

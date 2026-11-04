@@ -79,7 +79,10 @@ seakeeping database.
 running them every step needs a few documented extensions, each kept small and labelled in code:
 - the trim used for lift is the geometric trim relative to the local surface plus the angle from
   the bottom's vertical velocity (this is what damps heave and pitch);
-- an added-mass-flux (Wagner-type) damping term, c = π/4 ρ V b², for heave and pitch;
+- an added-mass-flux (Wagner-type) damping term, c = π/4 ρ V b², for heave and pitch, one-sided
+  (full strength while the bottom slams in, 15 % on the way out) so it never pulls the stern down;
+- vertical pressure drag on every wetted panel moving down into the water (Kerner's "pressure
+  drag"), which is the distributed slamming resistance that keeps a boat from launching off waves;
 - the forefoot ahead of the prismatic bottom gets its own Savitsky lift at its local buttock angle,
   which is what lifts the bow over the hump;
 - heel is handled by evaluating the two halves of the V with deadrise β ∓ φ, which gives the

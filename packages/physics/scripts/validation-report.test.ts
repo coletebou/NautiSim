@@ -8,6 +8,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, it } from 'vitest';
 import { calmWater } from '../src/core/environment';
+import { presetEnvironment } from '@nautisim/environment';
 import { createKVLCC2 } from '../src/hulls/kvlcc2';
 import { createPlaningBoat, RIB_65, RUNABOUT_8 } from '../src/hulls/planing';
 import { Simulation } from '../src/sim/simulation';
