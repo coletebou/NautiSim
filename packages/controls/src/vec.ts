@@ -14,7 +14,7 @@ export interface Q4 {
 
 export const v3 = (x: number, y: number, z: number): V3 => ({ x, y, z });
 export const len3 = (v: V3): number => Math.hypot(v.x, v.y, v.z);
-export const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
+export const clamp = (v: number, lo: number, hi: number): number => Math.min(Math.max(v, lo), hi);
 
 export function wrapPi(a: number): number {
   const t = 2 * Math.PI;

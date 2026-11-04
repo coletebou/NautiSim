@@ -173,9 +173,9 @@ function integrateTri(
       acc.dmz += gx * fy - gy * fx;
     }
   }
-  acc.cx += area * (ax + bx + cx) / 3;
-  acc.cy += area * (ay + by + cy) / 3;
-  acc.cz += area * (az + bz + cz) / 3;
+  acc.cx += (area * (ax + bx + cx)) / 3;
+  acc.cy += (area * (ay + by + cy)) / 3;
+  acc.cz += (area * (az + bz + cz)) / 3;
 }
 
 /** Clip a partly wet triangle whose odd vertex (wet when count = 1, dry when count = 2) is v0. */

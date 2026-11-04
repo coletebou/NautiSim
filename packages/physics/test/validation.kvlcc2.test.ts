@@ -3,7 +3,7 @@ import { calmWater } from '../src/core/environment';
 import { createKVLCC2, type KVLCC2Vessel } from '../src/hulls/kvlcc2';
 import { Simulation } from '../src/sim/simulation';
 import { DEG_IN_RAD } from '../src/units';
-import { turningCircle, type TurningResult, zigzag, type ZigZagResult } from '../src/validation/maneuvers';
+import { type TurningResult, turningCircle, type ZigZagResult, zigzag } from '../src/validation/maneuvers';
 import { KVLCC2_L7_REFERENCE as REF } from '../src/validation/references';
 
 /**

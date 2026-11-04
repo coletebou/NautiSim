@@ -201,6 +201,7 @@ export function createPlaningBoat(def: PlaningBoatDefinition, opts: { rho?: numb
       powerHp: E.powerHp,
       gm: restoring.gm,
       prismaticLength,
+      lcg: def.lcg,
     },
     definition: def,
     transomKeel,

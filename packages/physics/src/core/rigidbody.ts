@@ -1,6 +1,6 @@
 import type { Quat } from '../math/quat';
 import type { Vec3 } from '../math/vec3';
-import type { DofMask, Dof6, Wrench } from './types';
+import type { Dof6, DofMask, Wrench } from './types';
 
 /**
  * 6-DOF rigid body about the centre of gravity, in Fossen's body-frame form:

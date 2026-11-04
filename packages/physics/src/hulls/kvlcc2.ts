@@ -118,7 +118,14 @@ export function createKVLCC2(opts: KVLCC2Options = {}): KVLCC2Vessel {
   const Izz = mass * (D.kzzOverL * L) ** 2;
   const m2 = 0.5 * rho * L * L * d;
   const V = D.vertical;
-  const added = dof6(D.addedMass.mx * m2, D.addedMass.my * m2, V.heaveAddedMass * mass, V.rollAddedInertia * Ixx, V.pitchAddedInertia * Iyy, D.addedMass.Jz * 0.5 * rho * L ** 4 * d);
+  const added = dof6(
+    D.addedMass.mx * m2,
+    D.addedMass.my * m2,
+    V.heaveAddedMass * mass,
+    V.rollAddedInertia * Ixx,
+    V.pitchAddedInertia * Iyy,
+    D.addedMass.Jz * 0.5 * rho * L ** 4 * d,
+  );
   const restoring = estimateRestoring(mesh, mass, rho, g);
   const damp = dampingFromRatios(restoring, mass, { x: Ixx, y: Iyy }, added, { heave: V.zetaHeave, roll: V.zetaRoll, pitch: V.zetaPitch });
   const P = D.propeller;
@@ -206,7 +213,7 @@ export function createKVLCC2(opts: KVLCC2Options = {}): KVLCC2Vessel {
       rpsRate: rpsMax / (90 / Math.sqrt(lam)),
     },
     dofMask: mask,
-    fixedStep: (1 / 30) / Math.sqrt(lam),
+    fixedStep: 1 / 30 / Math.sqrt(lam),
     dimensions: { length: L, beam: B, draft: d, depth },
     bridgeEye: { x: -0.4 * L - xG, y: 0, z: -(depth - d) - 25 / lam + (d - KG) },
     gearRatio: 1,
@@ -216,6 +223,7 @@ export function createKVLCC2(opts: KVLCC2Options = {}): KVLCC2Vessel {
       model: 'MMG (Yasukawa & Yoshimura 2015)',
       cruiseKnots: D.approachSpeedKnots,
       gm: restoring.gm,
+      xG,
     },
     mmg,
     approachSpeed,

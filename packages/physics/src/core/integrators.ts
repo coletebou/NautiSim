@@ -1,5 +1,5 @@
-import { newWrench, type Wrench } from './types';
 import { type BodyProperties, enforceConstraints, rigidBodyDerivative, STATE_SIZE, type WrenchFn } from './rigidbody';
+import { newWrench, type Wrench } from './types';
 
 export type IntegratorKind = 'rk4' | 'semi-implicit-euler';
 

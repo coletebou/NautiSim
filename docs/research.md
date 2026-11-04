@@ -30,8 +30,8 @@ into hull, propeller and rudder parts and couples them through a small set of in
 standardised it and published the full model, test procedure and a worked data set for the KVLCC2
 tanker.
 
-- Yasukawa, H. and Yoshimura, Y. (2015). *Introduction of MMG standard method for ship maneuvering
-  predictions.* Journal of Marine Science and Technology 20, 37–52. Open access:
+- Yasukawa, H. and Yoshimura, Y. (2015). _Introduction of MMG standard method for ship maneuvering
+  predictions._ Journal of Marine Science and Technology 20, 37–52. Open access:
   <https://link.springer.com/article/10.1007/s00773-014-0293-y>
   - Hull forces are third-order polynomials in non-dimensional sway velocity v′ and yaw rate r′
     (X′vv … N′rrr, Table 3).
@@ -53,16 +53,16 @@ tanker.
   Research from MARIN's free-running tests and Yasukawa's MMG computation:
   <https://journal.mostwiedzy.pl/pmr/article/download/421/353/483>
 
-  | Manoeuvre | Quantity | MARIN free-running | Yasukawa MMG |
-  | --- | --- | --- | --- |
-  | +35° turn | advance / Lpp | 3.25 | 3.31 |
-  | +35° turn | tactical diameter / Lpp | 3.34 | 3.36 |
-  | −35° turn | advance / Lpp | 3.11 | 3.26 |
-  | −35° turn | tactical diameter / Lpp | 3.08 | 3.26 |
-  | 10°/10° zig-zag | 1st overshoot (°) | 8.2 | 5.2 |
-  | 10°/10° zig-zag | 2nd overshoot (°) | 21.9 | 15.8 |
-  | 20°/20° zig-zag | 1st overshoot (°) | 13.7 | 10.9 |
-  | 20°/20° zig-zag | 2nd overshoot (°) | 14.8 | 16.8 |
+  | Manoeuvre       | Quantity                | MARIN free-running | Yasukawa MMG |
+  | --------------- | ----------------------- | ------------------ | ------------ |
+  | +35° turn       | advance / Lpp           | 3.25               | 3.31         |
+  | +35° turn       | tactical diameter / Lpp | 3.34               | 3.36         |
+  | −35° turn       | advance / Lpp           | 3.11               | 3.26         |
+  | −35° turn       | tactical diameter / Lpp | 3.08               | 3.26         |
+  | 10°/10° zig-zag | 1st overshoot (°)       | 8.2                | 5.2          |
+  | 10°/10° zig-zag | 2nd overshoot (°)       | 21.9               | 15.8         |
+  | 20°/20° zig-zag | 1st overshoot (°)       | 13.7               | 10.9         |
+  | 20°/20° zig-zag | 2nd overshoot (°)       | 14.8               | 16.8         |
 
 - The MARIN uncertainty paper (Quadvlieg et al., "KVLCC2 benchmark data including uncertainty
   analysis to support manoeuvring predictions", MARINE 2011, <http://hdl.handle.net/2117/333239>)
@@ -91,7 +91,7 @@ centripetal terms in C, damping in D, restoring (buoyancy and gravity) in g, and
 - Marine Systems Simulator (MSS), MATLAB/Octave, release 2.0 with a generic 12-state 6-DOF vessel
   model, JONSWAP waves with directional spreading and first-order wave loads:
   <https://github.com/cybergalactic/MSS>, <https://fossen.biz/MSS/>
-- Fossen, T. I. *Handbook of Marine Craft Hydrodynamics and Motion Control* (Wiley, 2nd ed. 2021;
+- Fossen, T. I. _Handbook of Marine Craft Hydrodynamics and Motion Control_ (Wiley, 2nd ed. 2021;
   3rd ed. in progress).
 
 **What we take:** body-frame state, NED world frame, SNAME symbols, the C(ν) split (rigid-body
@@ -100,13 +100,13 @@ already contain the Munk moment and must not count it twice).
 
 ## 3. Planing hulls: Savitsky and extensions
 
-- Savitsky, D. (1964). *Hydrodynamic Design of Planing Hulls.* Marine Technology 1(1), 71–95.
+- Savitsky, D. (1964). _Hydrodynamic Design of Planing Hulls._ Marine Technology 1(1), 71–95.
   <https://doi.org/10.5957/mt1.1964.1.4.71>. Empirical equations for a prismatic planing surface:
   - lift of a flat plate C_L0 = τ^1.1 (0.0120 λ^0.5 + 0.0055 λ^2.5 / Cv²), τ in degrees;
   - deadrise correction C_Lβ = C_L0 − 0.0065 β C_L0^0.6;
   - centre of pressure lp/λb = 0.75 − 1/(5.21 Cv²/λ² + 2.39);
   - mean bottom velocity, wetted keel and chine lengths, porpoising limits.
-  The first lift term is dynamic lift; the second (with 1/Cv²) is the hydrostatic part.
+    The first lift term is dynamic lift; the second (with 1/Cv²) is the hydrostatic part.
 - A modern worked example with intermediate values (30 kn, τ 4°, b 3.2 m, λ 1.71875, β 18°,
   7.4552 t: C_L0 = 0.085181, C_Lβ = 0.058488, Rf = 5.859 kN, Rp = 5.112 kN, RT = 10.957 kN):
   <https://nauticalsolver.com/calculators/resistance/savitsky/savitsky.php>
@@ -114,7 +114,7 @@ already contain the Munk moment and must not count it twice).
   <https://usna.edu/NAOE/_files/documents/Courses/EN486/03_-_Resistance.pdf>
 - Extensions in the literature: Savitsky, DeLorme and Datla (2007) on whisker spray drag; Savitsky
   and Brown (1976) on pre-planing; Zarnick (1978) strip theory for planing in waves; Faltinsen's
-  *Hydrodynamics of High-Speed Marine Vehicles* (2005).
+  _Hydrodynamics of High-Speed Marine Vehicles_ (2005).
 
 **What we take:** a time-domain Savitsky force model. Instantaneous trim, keel wetted length and
 speed come from the 6-DOF state; only the dynamic lift term is applied (buoyancy already comes from
@@ -124,14 +124,14 @@ kept for validation against the worked example.
 
 ## 4. Sailing yacht resistance and sail forces (roadmap)
 
-- Delft Systematic Yacht Hull Series (DSYHS): Keuning and Katgert (2008), *A bare hull resistance
+- Delft Systematic Yacht Hull Series (DSYHS): Keuning and Katgert (2008), _A bare hull resistance
   prediction method derived from the results of the Delft Systematic Yacht Hull Series extended to
-  higher speeds*, RINA, <https://research.tudelft.nl/en/publications/a-bare-hull-resistance-prediction-method-derived-from-the-results/>.
+  higher speeds_, RINA, <https://research.tudelft.nl/en/publications/a-bare-hull-resistance-prediction-method-derived-from-the-results/>.
   The raw data is public (<http://dsyhs.tudelft.nl>); Remmlinger's re-regression
   (<https://remmlinger.com/Regression%20DSYHS.pdf>) reports lower error than the original fit.
 - Sail forces in real-time sims are usually lift/drag coefficient tables versus apparent wind angle
-  (the ORC VPP approach; Hazen's 1980 model; Fossati's *Aero-Hydrodynamics and the Performance of
-  Sailing Yachts*, 2009).
+  (the ORC VPP approach; Hazen's 1980 model; Fossati's _Aero-Hydrodynamics and the Performance of
+  Sailing Yachts_, 2009).
 
 **What we take:** the force-model interface is designed so a DSYHS resistance model and a
 coefficient-table sail model drop in later. Sailing is on the roadmap, not in v0.1.
@@ -163,7 +163,7 @@ to the physics surface); a GPU (TSL compute) FFT cascade is on the roadmap for h
 
 ## 6. Buoyancy from the hull mesh (game-physics approach)
 
-- Jacques Kerner, *Water interaction model for boats in video games* (Game Developer, 2015) and
+- Jacques Kerner, _Water interaction model for boats in video games_ (Game Developer, 2015) and
   part 2 (2016): approximate the hull with triangles, compute each vertex's height above the water,
   clip each triangle against the surface into 0–2 fully submerged triangles, then integrate
   hydrostatic pressure ρ g h n A over them. Part 2 adds viscous resistance, pressure drag and
@@ -173,7 +173,7 @@ to the physics surface); a GPU (TSL compute) FFT cascade is on the roadmap for h
 - Habrador's Unity tutorial is a readable implementation of the same idea:
   <https://www.habrador.com/tutorials/unity-boat-tutorial/3-buoyancy/>
 
-Integrating hydrostatic pressure of the *incident* wave over the instantaneous wetted surface is
+Integrating hydrostatic pressure of the _incident_ wave over the instantaneous wetted surface is
 exactly the nonlinear Froude–Krylov force, which is the dominant wave load for a small boat and a
 good-enough first-order load for a ship in a simulator. Radiation and diffraction are approximated
 by added mass and linear damping tuned to a target damping ratio.
@@ -184,7 +184,7 @@ closed-form box-barge hydrostatics (volume, KB, BM = B²/12T, GM).
 
 ## 7. Real-time integration and determinism
 
-- Glenn Fiedler, *Fix Your Timestep!* (<https://gafferongames.com/post/fix_your_timestep/>): run
+- Glenn Fiedler, _Fix Your Timestep!_ (<https://gafferongames.com/post/fix_your_timestep/>): run
   physics at a fixed step from an accumulator, and interpolate render state between the last two
   steps.
 - Quaternion attitude integration: q̇ = ½ q ⊗ (0, ω). RK4 on the full state with renormalisation

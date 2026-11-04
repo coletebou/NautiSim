@@ -1,8 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { ComplementaryFilter, LowPass, OneEuroFilter } from '../src/filters';
 import { MadgwickIMU } from '../src/madgwick';
-import { DEFAULT_MOTION_SETTINGS, dragWheel, InputMixer, mapGamepad, MotionHelm, type MotionSample, wheelToHelm } from '../src/mapping';
-import { captureNeutral, deviceToScreen, quatFromDeviceRotation, rateLimit, relativeTilt, relativeTiltFromAttitude, shapeAxis, tiltFromGravity } from '../src/tilt';
+import { DEFAULT_MOTION_SETTINGS, dragWheel, InputMixer, MotionHelm, type MotionSample, mapGamepad, wheelToHelm } from '../src/mapping';
+import {
+  captureNeutral,
+  deviceToScreen,
+  quatFromDeviceRotation,
+  rateLimit,
+  relativeTilt,
+  relativeTiltFromAttitude,
+  shapeAxis,
+  tiltFromGravity,
+} from '../src/tilt';
 import { qFromAxisAngle, qRotate, type V3 } from '../src/vec';
 
 const DEG = Math.PI / 180;

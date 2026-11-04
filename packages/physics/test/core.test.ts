@@ -5,7 +5,7 @@ import { type BodyProperties, packState, STATE_SIZE, unpackState } from '../src/
 import { ALL_DOF, dof6 } from '../src/core/types';
 import { createPlaningBoat, RIB_65 } from '../src/hulls/planing';
 import { quatFromEuler, quatIntegrate, quatMultiply, quatNormalize, quatSlerp, quatToEuler, rotate, rotateInverse } from '../src/math/quat';
-import { approach, schoenherrCf, ittc57Cf, wrap2Pi, wrapPi } from '../src/math/scalar';
+import { approach, ittc57Cf, schoenherrCf, wrap2Pi, wrapPi } from '../src/math/scalar';
 import { Simulation } from '../src/sim/simulation';
 import { degToRad, knotsToMps, mpsToKnots, radToDeg } from '../src/units';
 

@@ -1,5 +1,5 @@
-import type { Simulation } from '../sim/simulation';
 import { wrapPi } from '../math/scalar';
+import type { Simulation } from '../sim/simulation';
 
 /**
  * Standard IMO / ITTC manoeuvres, scripted on a Simulation. The vessel starts on a straight

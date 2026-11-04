@@ -56,16 +56,16 @@ Nx/Turborepo (unnecessary at this size); building packages to `dist` (extra movi
 **Decision.** A 6-DOF rigid body with diagonal added mass, rigid-body Coriolis, and pluggable force
 models summed at the centre of gravity:
 
-| Force model | Used by | Source |
-| --- | --- | --- |
-| Mesh hydrostatics (triangle clipping against the wave surface, i.e. nonlinear Froude–Krylov) | all hulls | Kerner 2015 |
-| Linear + quadratic damping in heave/roll/pitch from target damping ratios | all hulls | Fossen |
-| MMG hull, propeller and rudder (3-DOF horizontal) | KVLCC2 | Yasukawa & Yoshimura 2015 |
-| Added-mass Coriolis and Munk moment (optional) | planing hulls | Fossen |
-| Savitsky dynamic lift and friction (time domain) | RIB, runabout | Savitsky 1964 |
-| Propeller with quadratic KT/KQ and power-limited engine, vectored outboard thrust | planing hulls | B-series style fit |
-| Manoeuvring cross-flow drag for planing hulls | planing hulls | Fossen cross-flow |
-| Windage (frontal/lateral areas, centroid) | all hulls | Isherwood-style simplification |
+| Force model                                                                                  | Used by       | Source                         |
+| -------------------------------------------------------------------------------------------- | ------------- | ------------------------------ |
+| Mesh hydrostatics (triangle clipping against the wave surface, i.e. nonlinear Froude–Krylov) | all hulls     | Kerner 2015                    |
+| Linear + quadratic damping in heave/roll/pitch from target damping ratios                    | all hulls     | Fossen                         |
+| MMG hull, propeller and rudder (3-DOF horizontal)                                            | KVLCC2        | Yasukawa & Yoshimura 2015      |
+| Added-mass Coriolis and Munk moment (optional)                                               | planing hulls | Fossen                         |
+| Savitsky dynamic lift and friction (time domain)                                             | RIB, runabout | Savitsky 1964                  |
+| Propeller with quadratic KT/KQ and power-limited engine, vectored outboard thrust            | planing hulls | B-series style fit             |
+| Manoeuvring cross-flow drag for planing hulls                                                | planing hulls | Fossen cross-flow              |
+| Windage (frontal/lateral areas, centroid)                                                    | all hulls     | Isherwood-style simplification |
 
 Hulls are data: a `HullDefinition` holds principal dimensions, mass properties, a geometry recipe,
 and the list of force-model configurations. Factory functions turn that into a runtime `Vessel`.
@@ -130,7 +130,7 @@ two states, RK4 by default with semi-implicit Euler available. Quaternion renorm
 step. Seeded PRNG only; the step function takes time from the step counter, never from the clock.
 
 **Why.** Reproducible tests and replays, stable at phone frame rates, and standard practice
-(Fiedler, *Fix Your Timestep!*).
+(Fiedler, _Fix Your Timestep!_).
 
 ## ADR-006: Device motion input
 

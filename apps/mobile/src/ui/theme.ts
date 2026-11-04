@@ -1,0 +1,15 @@
+export const colors = {
+  bg: '#06121f',
+  panel: '#10263a',
+  panelTranslucent: 'rgba(8, 24, 38, 0.72)',
+  text: '#e6f0f7',
+  dim: '#8aa4b8',
+  accent: '#4fd1c5',
+  accentDim: '#1f5e60',
+  brass: '#d6b25e',
+  ahead: '#3fbf7f',
+  astern: '#d9654b',
+  port: '#e04848',
+  starboard: '#3fbf5f',
+  warn: '#f0b429',
+} as const;

@@ -140,7 +140,13 @@ export interface WheelState {
  * On-screen helm wheel: convert a drag around the wheel centre into a wheel angle. `lock` is the
  * wheel angle for full rudder (e.g. 1.5 turns lock to lock = 3π/2 each way… typically ±π).
  */
-export function dragWheel(state: WheelState, center: { x: number; y: number }, from: { x: number; y: number }, to: { x: number; y: number }, lock: number): WheelState {
+export function dragWheel(
+  state: WheelState,
+  center: { x: number; y: number },
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  lock: number,
+): WheelState {
   const a0 = Math.atan2(from.y - center.y, from.x - center.x);
   const a1 = Math.atan2(to.y - center.y, to.x - center.x);
   let d = a1 - a0;

@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "NautiSim",
+    "slug": "nautisim",
+    "scheme": "nautisim",
+    "version": "0.1.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#06121f",
+    "ios": {
+      "bundleIdentifier": "com.coletebou.nautisim",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSMotionUsageDescription": "NautiSim uses the motion sensors so you can steer by tilting your phone."
+      }
+    },
+    "android": {
+      "package": "com.coletebou.nautisim"
+    },
+    "web": {
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "NautiSim uses the motion sensors so you can steer by tilting your phone."
+        }
+      ],
+      "expo-screen-orientation",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
