@@ -130,6 +130,8 @@ export interface Vessel {
   readonly rest: Readonly<{ z: number; pitch: number; roll: number }>;
   /** Cross-flow drag coefficient for the wetted-panel sway drag (0 or absent = off). */
   readonly crossflowCd?: number;
+  /** Vertical panel pressure-drag coefficient (slamming / heave damping in waves; 0 = off). */
+  readonly verticalPanelCd?: number;
   /** Free-form metadata for the UI (descriptions, cruise speed…). */
   readonly meta: Readonly<Record<string, string | number>>;
 }

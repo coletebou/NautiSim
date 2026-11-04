@@ -202,10 +202,12 @@ export class Simulation {
     ctx.windRelBody.y = windBody.y - ctx.velBody.y;
     ctx.windRelBody.z = 0;
     const cd = this.vessel.crossflowCd ?? 0;
-    if (cd > 0) {
+    const cdV = this.vessel.verticalPanelCd ?? 0;
+    if (cd > 0 || cdV > 0) {
       rotate(q, ctx.relVelBody, this.kin.velocity);
       rotate(q, ctx.omegaBody, this.kin.omega);
       this.kin.cd = cd;
+      this.kin.cdVertical = cdV;
       computeHydrostatics(this.vessel.mesh, p, q, env, t, this.hydroScratch, ctx.hydro, this.kin);
     } else {
       computeHydrostatics(this.vessel.mesh, p, q, env, t, this.hydroScratch, ctx.hydro);
@@ -228,7 +230,7 @@ export class Simulation {
   /** Record each force model's body-z force and pitch moment in the diagnostics (slow). */
   debugForces = false;
   private readonly scratchWind: Vec3 = { x: 0, y: 0, z: 0 };
-  private readonly kin = { velocity: { x: 0, y: 0, z: 0 }, omega: { x: 0, y: 0, z: 0 }, cd: 0 };
+  private readonly kin = { velocity: { x: 0, y: 0, z: 0 }, omega: { x: 0, y: 0, z: 0 }, cd: 0, cdVertical: 0 };
 
   /** Advance one fixed step. */
   step(): void {

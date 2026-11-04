@@ -41,6 +41,11 @@ export interface CrossflowKinematics {
   /** Angular velocity, world frame. */
   omega: Readonly<Vec3>;
   cd: number;
+  /**
+   * Drag coefficient for panels moving vertically (world z) into the water: the distributed
+   * pressure drag / slamming resistance that damps heave and pitch in waves. 0 = off.
+   */
+  cdVertical?: number;
 }
 
 export const newHydroResult = (): HydroResult => ({
@@ -88,6 +93,7 @@ interface Accum {
   ey: number;
   ez: number;
   halfRhoCd: number;
+  halfRhoCdV: number;
   dfx: number;
   dfy: number;
   dfz: number;
@@ -160,6 +166,13 @@ function integrateTri(
     const pvy = acc.vy + acc.wz * gx - acc.wx * gz;
     const pvz = acc.vz + acc.wx * gy - acc.wy * gx;
     const vyb = pvx * acc.ex + pvy * acc.ey + pvz * acc.ez;
+    // vertical: panels moving down into the water with a downward-facing normal
+    if (acc.halfRhoCdV > 0 && pvz * uz > 0) {
+      const fz = -acc.halfRhoCdV * Math.abs(uz) * area * pvz * Math.abs(pvz);
+      acc.dfz += fz;
+      acc.dmx += gy * fz;
+      acc.dmy += -gx * fz;
+    }
     if (vyb * ny > 0) {
       const f = -acc.halfRhoCd * Math.abs(ny) * area * vyb * Math.abs(vyb);
       const fx = f * acc.ex;
@@ -275,7 +288,7 @@ export function computeHydrostatics(
     cx: 0,
     cy: 0,
     cz: 0,
-    kin: k !== undefined && k.cd > 0,
+    kin: k !== undefined && (k.cd > 0 || (k.cdVertical ?? 0) > 0),
     vx: k ? k.velocity.x : 0,
     vy: k ? k.velocity.y : 0,
     vz: k ? k.velocity.z : 0,
@@ -287,6 +300,7 @@ export function computeHydrostatics(
     ey: r11,
     ez: r21,
     halfRhoCd: k ? 0.5 * env.rho * k.cd : 0,
+    halfRhoCdV: k ? 0.5 * env.rho * (k.cdVertical ?? 0) : 0,
     dfx: 0,
     dfy: 0,
     dfz: 0,

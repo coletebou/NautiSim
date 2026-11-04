@@ -77,8 +77,13 @@ export function buildVesselModel(display: Vessel): THREE.Group {
     } else {
       // bowrider: deck, windscreen and a bimini frame
       box(B * 0.9, 0.08, L * 0.85, 0xc9b99a, 0, deckY, sternZ - L * 0.45);
-      const screen = box(B * 0.85, 0.45, 0.06, 0x2a3f52, 0, deckY + 0.3, sternZ - 0.55 * L);
+      const screen = new THREE.Mesh(
+        new THREE.BoxGeometry(B * 0.85, 0.45, 0.04),
+        new THREE.MeshStandardMaterial({ color: 0x9fc4dd, roughness: 0.1, transparent: true, opacity: 0.25 }),
+      );
+      screen.position.set(0, deckY + 0.3, sternZ - 0.58 * L);
       screen.rotation.x = -0.5;
+      group.add(screen);
     }
     // outboard / drive leg at the transom
     box(0.35, 0.9, 0.4, 0x15191d, 0, deckY - 0.1, sternZ + 0.25);

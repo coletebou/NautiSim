@@ -106,7 +106,7 @@ export const RUNABOUT_8: PlaningBoatDefinition = {
     maxSteerDeg: 25,
   },
   windage: { frontalArea: 4.5, lateralArea: 11, centroidAboveKeel: 1.5 },
-  eye: { x: 3.6, height: 2.1 },
+  eye: { x: 3.3, height: 2.4 },
   zeta: { heave: 0.35, roll: 0.5, pitch: 0.35 },
 };
 
@@ -190,6 +190,7 @@ export function createPlaningBoat(def: PlaningBoatDefinition, opts: { rho?: numb
     },
     dofMask: ALL_DOF,
     crossflowCd: 1.0,
+    verticalPanelCd: 1.0,
     fixedStep: 1 / 60,
     dimensions: { length: def.length, beam: def.sheerBeam, draft: restoring.rest.z + def.vcg, depth: def.depth },
     bridgeEye: { x: def.eye.x - def.lcg, y: 0, z: -(def.eye.height - def.vcg) },

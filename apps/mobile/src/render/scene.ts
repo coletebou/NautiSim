@@ -41,13 +41,14 @@ export class NauticalScene {
   constructor(private readonly p: SceneParams) {
     const L = p.vessel.dimensions.length;
     this.L = L;
-    const far = Math.max(4000, 40 * L);
+    const far = Math.max(30000, 60 * L);
     this.camera = new THREE.PerspectiveCamera(60, 1, 0.1, far);
-    this.scene.background = new THREE.Color(0x9cc3dc);
-    this.scene.fog = new THREE.Fog(0x9cc3dc, Math.max(300, 6 * L), far * 0.9);
+    // the water fades into the sky colour well before the far plane, so the horizon is seamless
+    this.scene.background = new THREE.Color(0xa9cbe0);
+    this.scene.fog = new THREE.Fog(0xa9cbe0, Math.max(250, 5 * L), Math.max(5000, 25 * L));
     this.scene.add(new THREE.HemisphereLight(0xdfefff, 0x0a2233, 1.6));
-    const sun = new THREE.DirectionalLight(0xfff2dc, 2.2);
-    sun.position.set(-300, 400, -200);
+    const sun = new THREE.DirectionalLight(0xfff2dc, 2.6);
+    sun.position.set(-300, 220, -400);
     this.scene.add(sun);
     const q = QUALITY[p.quality];
     const size = Math.max(160, Math.min(2400, 12 * L)) * q.sizeFactor;
@@ -114,8 +115,8 @@ export class NauticalScene {
       let dy = heading - this.chase.yaw;
       dy = Math.atan2(Math.sin(dy), Math.cos(dy));
       this.chase.yaw += dy * k;
-      const back = Math.max(12, 2.2 * L);
-      const up = Math.max(4, 0.55 * L);
+      const back = Math.max(10, 1.7 * L);
+      const up = Math.max(3, 0.4 * L);
       const target = new THREE.Vector3(pos.x - Math.sin(this.chase.yaw) * back, Math.max(pos.y, 0) + up, pos.z + Math.cos(this.chase.yaw) * back);
       if (this.chase.pos.lengthSq() === 0) this.chase.pos.copy(target);
       this.chase.pos.lerp(target, 1 - Math.exp(-dt * 4));

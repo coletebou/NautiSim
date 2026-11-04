@@ -286,7 +286,8 @@ export function savitskyPlaning(o: PlaningModelOptions): ForceModel {
         // heaving and pitching motion is damped
         const pv = { x: rel.x + w.y * tk.z, y: rel.y + w.z * xc - w.x * tk.z, z: rel.z - w.y * xc };
         rotate(q, pv, fwdWorld);
-        const wc = fwdWorld.z;
+        // one-sided: water resists the bottom slamming in, but barely holds it back on the way out
+        const wc = fwdWorld.z > 0 ? fwdWorld.z : 0.15 * fwdWorld.z;
         out.moment.y += xc * ch * wc - ch * ((lw * lw) / 12) * w.y;
       }
       // friction on the wetted bottom
@@ -343,7 +344,10 @@ export function preplaningResistance(o: {
       out.force.x -= Math.sign(u) * r;
       // the bow wave and stern trough of the hump trim the bow up; fades out once on the plane
       const trimShape = Math.exp(-(((fnv - center) / (1.3 * width)) ** 2)) * smoothstep(0.2, 1.0, fnv);
-      out.moment.y += u > 0 ? humpMoment * trimShape : 0;
+      // the bow-wave moment relaxes as the hull trims up (it is what produces the hump trim, so
+      // it must not keep pushing once the bow is already high)
+      const trimRelief = Math.max(0, 1 - Math.max(ctx.euler.pitch, 0) / (8 * (Math.PI / 180)));
+      out.moment.y += u > 0 ? humpMoment * trimShape * trimRelief : 0;
       ctx.diag['planing.hump'] = r;
     },
   };
