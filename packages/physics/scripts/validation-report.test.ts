@@ -67,7 +67,9 @@ function svgPlot(opts: {
     return out;
   };
   const parts: string[] = [];
-  parts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="system-ui, sans-serif" font-size="12" role="img">`);
+  parts.push(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="system-ui, sans-serif" font-size="12" role="img">`,
+  );
   parts.push(`<title>${opts.title}</title>`);
   parts.push(`<rect width="${W}" height="${H}" fill="#06121f"/>`);
   parts.push(`<text x="${W / 2}" y="20" fill="#e6f0f7" font-size="15" text-anchor="middle">${opts.title}</text>`);
