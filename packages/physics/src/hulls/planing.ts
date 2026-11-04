@@ -190,7 +190,7 @@ export function createPlaningBoat(def: PlaningBoatDefinition, opts: { rho?: numb
     },
     dofMask: ALL_DOF,
     crossflowCd: 1.0,
-    fixedStep: 1 / 120,
+    fixedStep: 1 / 60,
     dimensions: { length: def.length, beam: def.sheerBeam, draft: restoring.rest.z + def.vcg, depth: def.depth },
     bridgeEye: { x: def.eye.x - def.lcg, y: 0, z: -(def.eye.height - def.vcg) },
     gearRatio: E.gearRatio,
