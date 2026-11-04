@@ -13,8 +13,7 @@
   "sideEffects": false,
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run",
-    "validation-report": "node --experimental-strip-types scripts/validation-report.ts"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@nautisim/environment": "workspace:*"

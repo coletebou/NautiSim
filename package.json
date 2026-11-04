@@ -15,8 +15,8 @@
     "format": "biome check --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validate": "vitest run --project physics -t validation",
-    "check": "pnpm typecheck && pnpm lint && pnpm test"
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "validation-report": "REPORT=1 vitest run --project physics scripts/validation-report"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",

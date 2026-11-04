@@ -75,6 +75,20 @@ validation data. Savitsky is the industry default for planing craft and is cheap
 step. Mesh hydrostatics gives correct heel, trim and wave response for any hull shape without a
 seakeeping database.
 
+**Planing model details.** Savitsky's equations describe steady planing of a prismatic hull, so
+running them every step needs a few documented extensions, each kept small and labelled in code:
+- the trim used for lift is the geometric trim relative to the local surface plus the angle from
+  the bottom's vertical velocity (this is what damps heave and pitch);
+- an added-mass-flux (Wagner-type) damping term, c = π/4 ρ V b², for heave and pitch;
+- the forefoot ahead of the prismatic bottom gets its own Savitsky lift at its local buttock angle,
+  which is what lifts the bow over the hump;
+- heel is handled by evaluating the two halves of the V with deadrise β ∓ φ, which gives the
+  dynamic roll stiffness, plus a small sideslip-asymmetry term;
+- a pre-planing "hump" resistance and bow-up moment, **calibrated** (not from a published
+  regression) until Savitsky & Brown (1976) lands;
+- sway resistance from wetted-panel cross-flow drag on the actual mesh, so it still works when the
+  hull is heeled onto its chine.
+
 **Rejected.** Full strip theory or panel methods in real time (too slow on phones); a single generic
 "arcade boat" model (cannot be validated against anything).
 
@@ -124,7 +138,7 @@ gesture handling, which is exactly what we want to avoid. A native C++ physics c
 
 ## ADR-005: Integration and determinism
 
-**Decision.** Fixed step (1/120 s for small craft, 1/30 s for the tanker), accumulator with a
+**Decision.** Fixed step (1/60 s for small craft, 1/30 s for the full-scale tanker), accumulator with a
 maximum of 8 sub-steps per frame (to avoid a spiral of death), render interpolation between the last
 two states, RK4 by default with semi-implicit Euler available. Quaternion renormalised after every
 step. Seeded PRNG only; the step function takes time from the step counter, never from the clock.
@@ -151,8 +165,8 @@ the same filters natively. The pure TypeScript implementation remains the refere
 
 ## ADR-007: Tooling
 
-**Decision.** Strict TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`
-in the pure packages), Vitest for tests, Biome for lint + format (one fast tool instead of
+**Decision.** Strict TypeScript 6 (the version Expo SDK 58 expects; `strict`, `noUncheckedIndexedAccess`,
+`exactOptionalPropertyTypes` in the pure packages), Vitest for tests, Biome for lint + format (one fast tool instead of
 ESLint + Prettier), GitHub Actions running typecheck, lint, tests, `expo export` for iOS and
 Android, and `expo-doctor`. `eas.json` with development, preview and production profiles and no
 secrets. Conventional Commits.

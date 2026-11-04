@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck, lint and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Lint and format (Biome)
+        run: pnpm exec biome ci .
+      - name: Unit and validation tests
+        run: pnpm test
+
+  mobile:
+    name: Expo export and doctor
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: expo-doctor
+        working-directory: apps/mobile
+        run: npx --yes expo-doctor
+      - name: Export iOS bundle
+        working-directory: apps/mobile
+        run: npx expo export --platform ios --output-dir dist/ios
+      - name: Export Android bundle
+        working-directory: apps/mobile
+        run: npx expo export --platform android --output-dir dist/android
