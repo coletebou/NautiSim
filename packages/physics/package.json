@@ -1,0 +1,20 @@
+{
+  "name": "@nautisim/physics",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic 6-DOF marine vessel physics: rigid body, hydrostatics, MMG, Savitsky, propulsion.",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "validation-report": "node --experimental-strip-types scripts/validation-report.ts"
+  },
+  "devDependencies": {
+    "@nautisim/environment": "workspace:*"
+  }
+}
