@@ -63,4 +63,14 @@ Steady state after 60 s at each throttle setting in calm water.
 
 ![Planing speed curves](img/planing-speed.svg)
 
+## Physics cost
+
+Milliseconds per fixed step in a moderate sea (16 wave components, RK4), measured on the machine that generated this report. Phones are typically several times slower; see the on-device checklist in the roadmap.
+
+| Vessel             | Step (s) | ms per step | ms per simulated second |
+| ------------------ | -------- | ----------- | ----------------------- |
+| RIB 6.5 m          | 0.0167   | 0.592       | 35.5                    |
+| Sport runabout 8 m | 0.0167   | 0.596       | 35.8                    |
+| KVLCC2 tanker      | 0.0333   | 1.911       | 57.3                    |
+
 The static Savitsky equations themselves are checked against a published worked example in `test/savitsky.test.ts`; hydrostatics against closed-form box-barge values in `test/hydrostatics.test.ts`.

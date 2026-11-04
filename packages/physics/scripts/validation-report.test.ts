@@ -6,9 +6,9 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { presetEnvironment } from '@nautisim/environment';
 import { describe, it } from 'vitest';
 import { calmWater } from '../src/core/environment';
-import { presetEnvironment } from '@nautisim/environment';
 import { createKVLCC2 } from '../src/hulls/kvlcc2';
 import { createPlaningBoat, RIB_65, RUNABOUT_8 } from '../src/hulls/planing';
 import { Simulation } from '../src/sim/simulation';
@@ -220,6 +220,26 @@ describe.runIf(process.env.REPORT)('validation report', () => {
       md.push('');
     }
     md.push('![Planing speed curves](img/planing-speed.svg)');
+    md.push('');
+    md.push('## Physics cost');
+    md.push('');
+    md.push(
+      'Milliseconds per fixed step in a moderate sea (16 wave components, RK4), measured on the machine that generated this report. Phones are typically several times slower; see the on-device checklist in the roadmap.',
+    );
+    md.push('');
+    md.push('| Vessel | Step (s) | ms per step | ms per simulated second |');
+    md.push('| --- | --- | --- | --- |');
+    for (const make of [() => createPlaningBoat(RIB_65), () => createPlaningBoat(RUNABOUT_8), () => createKVLCC2({ scale: 1 })]) {
+      const vessel = make();
+      const s = new Simulation(vessel, presetEnvironment('moderate', { seed: 1, waveComponents: 16 }));
+      s.controls = { throttle: 0.6, helm: 0.1, thruster: 0 };
+      s.run(200);
+      const n = 1500;
+      const t0 = performance.now();
+      s.run(n);
+      const ms = (performance.now() - t0) / n;
+      md.push(`| ${vessel.name} | ${f(s.dt, 4)} | ${f(ms, 3)} | ${f(ms / s.dt, 1)} |`);
+    }
     md.push('');
     md.push(
       'The static Savitsky equations themselves are checked against a published worked example in `test/savitsky.test.ts`; hydrostatics against closed-form box-barge values in `test/hydrostatics.test.ts`.',
