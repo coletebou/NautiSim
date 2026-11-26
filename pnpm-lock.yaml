@@ -14,12 +14,15 @@ importers:
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
+      tsrs:
+        specifier: 7.1.0-beta.tsrs5
+        version: 7.1.0-beta.tsrs5
       typescript:
         specifier: ~6.0.3
         version: 6.0.3
       vitest:
-        specifier: ^5.1.0
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))
+        specifier: ^5.1.2
+        version: 5.1.2(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))
 
   apps/mobile:
     dependencies:
@@ -1229,6 +1232,58 @@ packages:
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha512-hhyNJ+nbR6ZR7pToHvllEFun9TL0sbL+tk/ON75lo+Xas054uez98qRbsuNt7MBCyZKK4+8Yli/OAGZhmfBZ/g==}
 
+  '@tsrs/darwin-arm64@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-wRLJq3IDZjdLrh+lsipipCfYPpFjNW/0zjeM9azNLjA33OWjOIxT2THiKExf7bjkbr6SGCrrjDR+ZZyXYz4Rjg==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@tsrs/darwin-x64@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-jTZgFXcnDbkDZwq121fhcZv8YaoJCzSWshJJYRnfc2QqagI31Fn9Vjbiz/GgfoAvw32vK8OZrNCDzN2Cu9UkDQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@tsrs/linux-arm64-gnu@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-o0ofV8Yw5IbaXR7wjIHaqBv9YddJ6Weot+IpYWfUNqG3YpAe4N5G0dU9vsCLX7eNNYx1mMyIZK0eyMV1r6qg2g==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@tsrs/linux-arm64-musl@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-Nki4kxNnp8qO+/8MtZeO0cAt8ifGHPbC9R0BepVlLuDdvR2cqfzym+l75zXtvnwW1nekmKwbNpHqsuHXoITYGQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@tsrs/linux-x64-gnu@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-hyg70btCCaMT3RvFYU0KEibFyQjFUUfrqk4zTl7rf/7G3HPO3X6sEs8J/AHYUvJB0cA+dXgU/adkiZf1XJI/XA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@tsrs/linux-x64-musl@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-5RI2Ziy8eSkvUi/oeQbrCSzJC/AP7DCtn9IEOWS74BhuQK7WUr1op5ozQMsn4kA6DfuCAuYSQZygTk2Zv3Ib+g==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@tsrs/win32-arm64@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-RqvW3yaksYl8h8m+aHGfWT9He6AwgvhJ38+8rcuE+Mz12DxVLeRVvWco5k1DZ3nMT056Erohyuwuv4F3A5Tnww==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@tsrs/win32-x64@7.1.0-beta.tsrs5':
+    resolution: {integrity: sha512-ZTEC3ITNsWH54a/0CtlRhNNfstVFHeg40sUjuQMYIlLiLxRFOXOPjFL/eyjZAS/1fNM+DGtz+6RY6AAMdqyoXw==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [win32]
+
   '@tweenjs/tween.js@23.1.3':
     resolution: {integrity: sha512-vJmvvwFxYuGnF2axRtPYocag6Clbb5YS7kLL+SO/TeVFzHqDIWrNKYtcsPMibjDx9O+bu+psAy9NKfWklassUA==}
 
@@ -1277,8 +1332,8 @@ packages:
   '@ungap/structured-clone@1.4.0':
     resolution: {integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==}
 
-  '@vitest/mocker@5.1.0':
-    resolution: {integrity: sha512-5umB9/jlWcqVS6fsrFmv5Gdnpu6wAUio/lEOwAmvB7v+lFo/IW2B9FhAD0p19GCULTgMzLCdUmuCDCnAzWgppQ==}
+  '@vitest/mocker@5.1.2':
+    resolution: {integrity: sha512-UGc97wUIy0Ji2+9GxzHEJiOhiwkaukgE7VYcUNnjpX3sWnwQ8XogmNXX4WyOukxYgKb8Nh2XFa7KId0ZjpmVhQ==}
     peerDependencies:
       msw: ^2.4.9 || ^3.0.0
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -1288,8 +1343,8 @@ packages:
       vite:
         optional: true
 
-  '@vitest/spy@5.1.0':
-    resolution: {integrity: sha512-2DPO5OMHWKrBngC+fCmTQqemNF0gidRhp3lxbBmRhW+M1XJrfgPpqNqWVevXtn2f2ufD5ZaR1B6B641aAlcX5A==}
+  '@vitest/spy@5.1.2':
+    resolution: {integrity: sha512-PQl0/3+p9GaY71+MHywN6oyHfLhVDD5kcbm7oNRldA2F0ExMU3S8RQdnpteJ9gFAdK5P6KCgE6LqCpUgy57KzA==}
 
   '@webgpu/types@0.1.74':
     resolution: {integrity: sha512-lgiI4hbuLcI9unnm2cL/tvCaQU45dp0xcLWJh5uB/9MBGvIA4F8XIk7nSiBeg+K4xWGYwgZKn80LmERI5CxoTA==}
@@ -2888,6 +2943,11 @@ packages:
   toqr@0.1.1:
     resolution: {integrity: sha512-FWAPzCIHZHnrE/5/w9MPk0kK25hSQSH2IKhYh9PyjS3SG/+IEMvlwIHbhz+oF7xl54I+ueZlVnMjyzdSwLmAwA==}
 
+  tsrs@7.1.0-beta.tsrs5:
+    resolution: {integrity: sha512-z+hNizBykB1mv/XxMnMYMSGuwnYEk6S708LGEEaTmdLu6eaH4NOtVemySycbEiW/SCjMeYMk+SZfVdRJwEmYXA==}
+    engines: {node: '>=16.20.0'}
+    hasBin: true
+
   type-fest@0.21.3:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
@@ -2990,20 +3050,20 @@ packages:
       yaml:
         optional: true
 
-  vitest@5.1.0:
-    resolution: {integrity: sha512-MzmNFnrwa8v8lF1bLxw3UJ4EREwVOVb75VqJZmUDRjJ6EluK/x9th7qTbaeDk41WxE1GxWqmTXcdsfobfH5sOA==}
+  vitest@5.1.2:
+    resolution: {integrity: sha512-VIa2wXV208WraXUbzH+dQUrGcFpPuaiRA8HlhXS8R6/sy9cynw6OMqGj8fmAlH1hot7huTCtWUE14+FdXU3eLw==}
     engines: {node: ^22.12.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 5.1.0
-      '@vitest/browser-preview': 5.1.0
+      '@vitest/browser-playwright': 5.1.2
+      '@vitest/browser-preview': 5.1.2
       '@vitest/browser-webdriverio': ^5.0.0-beta.5 || >=5.0.0
-      '@vitest/coverage-istanbul': 5.1.0
-      '@vitest/coverage-v8': 5.1.0
-      '@vitest/ui': 5.1.0
+      '@vitest/coverage-istanbul': 5.1.2
+      '@vitest/coverage-v8': 5.1.2
+      '@vitest/ui': 5.1.2
       happy-dom: '*'
       jsdom: '*'
       vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -4436,6 +4496,30 @@ snapshots:
 
   '@sinclair/typebox@0.27.12': {}
 
+  '@tsrs/darwin-arm64@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/darwin-x64@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/linux-arm64-gnu@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/linux-arm64-musl@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/linux-x64-gnu@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/linux-x64-musl@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/win32-arm64@7.1.0-beta.tsrs5':
+    optional: true
+
+  '@tsrs/win32-x64@7.1.0-beta.tsrs5':
+    optional: true
+
   '@tweenjs/tween.js@23.1.3': {}
 
   '@types/chai@5.2.3':
@@ -4490,16 +4574,16 @@ snapshots:
 
   '@ungap/structured-clone@1.4.0': {}
 
-  '@vitest/mocker@5.1.0(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))':
+  '@vitest/mocker@5.1.2(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.1.0
+      '@vitest/spy': 5.1.2
       estree-walker: 3.0.3
       magic-string: 1.4.5
     optionalDependencies:
       vite: 8.3.5(@types/node@24.19.2)(terser@5.51.2)
 
-  '@vitest/spy@5.1.0': {}
+  '@vitest/spy@5.1.2': {}
 
   '@webgpu/types@0.1.74': {}
 
@@ -6302,6 +6386,17 @@ snapshots:
 
   toqr@0.1.1: {}
 
+  tsrs@7.1.0-beta.tsrs5:
+    optionalDependencies:
+      '@tsrs/darwin-arm64': 7.1.0-beta.tsrs5
+      '@tsrs/darwin-x64': 7.1.0-beta.tsrs5
+      '@tsrs/linux-arm64-gnu': 7.1.0-beta.tsrs5
+      '@tsrs/linux-arm64-musl': 7.1.0-beta.tsrs5
+      '@tsrs/linux-x64-gnu': 7.1.0-beta.tsrs5
+      '@tsrs/linux-x64-musl': 7.1.0-beta.tsrs5
+      '@tsrs/win32-arm64': 7.1.0-beta.tsrs5
+      '@tsrs/win32-x64': 7.1.0-beta.tsrs5
+
   type-fest@0.21.3: {}
 
   type-fest@0.7.1: {}
@@ -6351,10 +6446,10 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.51.2
 
-  vitest@5.1.0(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2)):
+  vitest@5.1.2(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.1.0(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))
+      '@vitest/mocker': 5.1.2(vite@8.3.5(@types/node@24.19.2)(terser@5.51.2))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0

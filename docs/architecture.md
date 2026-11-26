@@ -42,7 +42,7 @@ can be driven by a calm-water stub in tests.
 ## ADR-001: Monorepo with pnpm, TypeScript source packages
 
 **Decision.** One pnpm workspace with `packages/*` and `apps/*`. Packages export their TypeScript
-source directly (`"main": "src/index.ts"`); Metro, Vitest and `tsc` all consume source. pnpm uses
+source directly (`"main": "src/index.ts"`); Metro, Vitest and the type checker (`tsrs`) all consume source. pnpm uses
 `node-linker=hoisted`, which Expo and Metro handle best.
 
 **Why.** No build step for libraries keeps the edit-run loop instant and the stack small. Hoisting
